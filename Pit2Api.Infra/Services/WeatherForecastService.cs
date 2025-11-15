@@ -1,9 +1,12 @@
-﻿using Pit2Api.Model.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using Pit2Api.Model;
+using Pit2Api.Model.Interfaces;
 using Pit2Api.Model.Models;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace Pit2Api.Infra.Services
 {
-    public class WeatherForecastService: IWeatherForecastService
+    public class WeatherForecastService(IOptions<Config> _config): IWeatherForecastService
     {
         private static readonly string[] Summaries = new[]
 {
@@ -17,7 +20,7 @@ namespace Pit2Api.Infra.Services
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                Summary = _config.Value.Test// Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
         }

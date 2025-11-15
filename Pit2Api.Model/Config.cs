@@ -9,5 +9,7 @@ namespace Pit2Api.Model
     public record Config
     {
         public string ConnectionString { get; set; }
+
+        public int MaxSessionsPerUser { get; set; }
     }
 }

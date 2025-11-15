@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="Pit2Api.Infra/Pit2Api.Infra.csproj" Id="b7b3f100-29b9-47e2-ac35-a136fe178e92" />
+  <Project Path="Pit2Api.Model/Pit2Api.Model.csproj" Id="0adc550c-5af9-4041-9773-3faf1a8b80b6" />
   <Project Path="Pit2Api/Pit2Api.csproj" />
 </Solution>

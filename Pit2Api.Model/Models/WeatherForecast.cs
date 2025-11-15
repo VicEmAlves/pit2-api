@@ -1,4 +1,4 @@
-namespace Pit2Api
+namespace Pit2Api.Model.Models
 {
     public class WeatherForecast
     {

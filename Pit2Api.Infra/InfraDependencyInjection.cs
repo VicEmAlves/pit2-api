@@ -17,6 +17,7 @@ namespace Pit2Api.Infra
         public static IServiceCollection AddInfraDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<IWeatherForecastService, WeatherForecastService>();
+            services.AddScoped<ILoginService, LoginService>();
             return services;
         }
 
@@ -25,6 +26,7 @@ namespace Pit2Api.Infra
             services.AddSingleton<ISqlDatabase, SqlDatabase>();
 
             services.AddScoped<IWeatherRepository, WeatherRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
             return services;
         }
     }

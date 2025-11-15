@@ -1,0 +1,6 @@
+@Pit2Api_HostAddress = http://localhost:5141
+
+GET {{Pit2Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

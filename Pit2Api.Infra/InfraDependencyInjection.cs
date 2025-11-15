@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Pit2Api.Infra.Repositories;
+using Pit2Api.Infra.Repositories.Abstraction;
+using Pit2Api.Infra.Repositories.Implementation;
 using Pit2Api.Infra.Services;
 using Pit2Api.Model.Interfaces;
 using System;
@@ -19,6 +22,9 @@ namespace Pit2Api.Infra
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddSingleton<ISqlDatabase, SqlDatabase>();
+
+            services.AddScoped<IWeatherRepository, WeatherRepository>();
             return services;
         }
     }

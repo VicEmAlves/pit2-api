@@ -23,5 +23,11 @@ namespace Pit2Api.Controllers
         {
             return await _weatherService.GetWeatherForecasts();
         }
+
+        [HttpGet("GetWeatherDataBase")]
+        public async Task<IEnumerable<WeatherForecast>> GetDataBase()
+        {
+            return await _weatherService.GetAllWeatherForecasts();
+        }
     }
 }

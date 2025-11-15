@@ -8,6 +8,6 @@ namespace Pit2Api.Model
 {
     public record Config
     {
-        public string Test { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

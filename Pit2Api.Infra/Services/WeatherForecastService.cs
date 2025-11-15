@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.Options;
-using Pit2Api.Model;
+﻿using Pit2Api.Infra.Repositories.Abstraction;
 using Pit2Api.Model.Interfaces;
 using Pit2Api.Model.Models;
-using System.Runtime.InteropServices.Marshalling;
 
 namespace Pit2Api.Infra.Services
 {
-    public class WeatherForecastService(IOptions<Config> _config): IWeatherForecastService
+    public class WeatherForecastService(IWeatherRepository _repository): IWeatherForecastService
     {
         private static readonly string[] Summaries = new[]
 {
@@ -18,11 +16,16 @@ namespace Pit2Api.Infra.Services
             await Task.Delay(100); // Simulate async operation
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                Date = DateTime.Now.AddDays(index),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = _config.Value.Test// Summaries[Random.Shared.Next(Summaries.Length)]
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        public async Task<IEnumerable<WeatherForecast>> GetAllWeatherForecasts()
+        {
+            return await _repository.GetAllWeatherForecasts();
         }
 
     }

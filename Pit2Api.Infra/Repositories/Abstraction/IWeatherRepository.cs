@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pit2Api.Model.Interfaces
+namespace Pit2Api.Infra.Repositories.Abstraction
 {
-    public interface IWeatherForecastService
+    public interface IWeatherRepository
     {
-        public Task<IEnumerable<WeatherForecast>> GetWeatherForecasts();
         public Task<IEnumerable<WeatherForecast>> GetAllWeatherForecasts();
-
     }
 }

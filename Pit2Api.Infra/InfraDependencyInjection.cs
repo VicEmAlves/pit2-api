@@ -18,6 +18,7 @@ namespace Pit2Api.Infra
         {
             services.AddScoped<IWeatherForecastService, WeatherForecastService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IGameService, GameService>();
             return services;
         }
 
@@ -27,6 +28,7 @@ namespace Pit2Api.Infra
 
             services.AddScoped<IWeatherRepository, WeatherRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             return services;
         }
     }

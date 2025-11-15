@@ -54,5 +54,33 @@ WHERE NickName = @NickName
         public const string GetAllSecurityQuestions = @"
 SELECT Id, Descricao FROM PerguntaSeguranca ORDER BY Id
 ";
+
+        // Game related scripts
+        public const string GetAllComplexidades = @"
+SELECT Id, Descricao
+FROM Complexidade
+ORDER BY Id
+";
+
+        public const string InsertJogo = @"
+INSERT INTO Jogo (Id, IdUsuario, IdComplexidade, Nome, DuracaoMinutos, QtdMinimaJogadores, QtdMaximaJogadores, IdadeMinima)
+VALUES (@Id, @IdUsuario, @IdComplexidade, @Nome, @DuracaoMinutos, @QtdMinimaJogadores, @QtdMaximaJogadores, @IdadeMinima)
+";
+
+        public const string UpdateJogo = @"
+UPDATE Jogo
+SET IdComplexidade = @IdComplexidade,
+    Nome = @Nome,
+    DuracaoMinutos = @DuracaoMinutos,
+    QtdMinimaJogadores = @QtdMinimaJogadores,
+    QtdMaximaJogadores = @QtdMaximaJogadores,
+    IdadeMinima = @IdadeMinima
+WHERE Id = @Id
+";
+
+        public const string DeleteJogo = @"
+DELETE FROM Jogo
+WHERE Id = @Id
+";
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Pit2Api.Controllers.Dto
+namespace Pit2Api.Model.Dto
 {
     public class ChangePasswordDto
     {

@@ -34,7 +34,7 @@ SELECT CASE WHEN EXISTS(
     SELECT 1 FROM Usuario
     WHERE NickName = @NickName
       AND Senha = HASHBYTES('SHA2_512', @Senha)
-) THEN 1 ELSE 0 END
+) THEN (SELECT Id FROM Usuario WHERE NickName = @NickName) ELSE '' END
 ";
 
         public const string ValidateSecurityAnswer = @"
@@ -81,6 +81,79 @@ WHERE Id = @Id
         public const string DeleteJogo = @"
 DELETE FROM Jogo
 WHERE Id = @Id
+";
+
+        // Session related scripts
+        public const string GetSectionsByUser = @"
+SELECT Id, IdUsuario, IdadeJogadorMaisNovo, DuracaoMinutos, QtdJogadores, NivelComplexidadeMinima, NivelComplexidadeMaxima
+FROM Secao
+WHERE IdUsuario = @IdUsuario
+ORDER BY Id
+";
+
+        public const string CountSectionsByUser = @"
+SELECT COUNT(1) FROM Secao WHERE IdUsuario = @IdUsuario
+";
+
+        public const string InsertSecao = @"
+INSERT INTO Secao (Id, IdUsuario, IdadeJogadorMaisNovo, DuracaoMinutos, QtdJogadores, NivelComplexidadeMinima, NivelComplexidadeMaxima)
+VALUES (@Id, @IdUsuario, @IdadeJogadorMaisNovo, @DuracaoMinutos, @QtdJogadores, @NivelComplexidadeMinima, @NivelComplexidadeMaxima)
+";
+
+        public const string DeleteSecao = @"
+DELETE FROM Secao WHERE Id = @Id
+";
+
+        public const string GetSecaoById = @"
+SELECT Id, IdUsuario, IdadeJogadorMaisNovo, DuracaoMinutos, QtdJogadores, NivelComplexidadeMinima, NivelComplexidadeMaxima
+FROM Secao
+WHERE Id = @Id
+";
+
+        public const string GetGamesBySection = @"
+SELECT j.Id as IdJogo,
+       j.Nome,
+       j.DuracaoMinutos,
+       js.PrimeiraVez,
+       js.IdSecao
+FROM JogosSecao js
+INNER JOIN Jogo j ON js.IdJogo = j.Id
+WHERE js.IdSecao = @IdSecao
+ORDER BY j.Nome
+";
+
+        public const string GetJogoById = @"
+SELECT Id, IdUsuario, IdComplexidade, Nome, DuracaoMinutos, QtdMinimaJogadores, QtdMaximaJogadores, IdadeMinima
+FROM Jogo
+WHERE Id = @Id
+";
+
+        public const string DeleteJogosSecaoBySecao = @"
+DELETE FROM JogosSecao WHERE IdSecao = @IdSecao
+";
+
+        public const string InsertJogosSecao = @"
+INSERT INTO JogosSecao (IdSecao, IdJogo, PrimeiraVez)
+VALUES (@IdSecao, @IdJogo, @PrimeiraVez)
+";
+
+        public const string GetGamesByUser = @"
+SELECT Id, IdUsuario, IdComplexidade, Nome, DuracaoMinutos, QtdMinimaJogadores, QtdMaximaJogadores, IdadeMinima
+FROM Jogo
+WHERE IdUsuario = @IdUsuario
+ORDER BY Nome
+";
+
+        public const string GetGamesByUserWithFilters = @"
+SELECT Id, IdUsuario, IdComplexidade, Nome, DuracaoMinutos, QtdMinimaJogadores, QtdMaximaJogadores, IdadeMinima
+FROM Jogo
+WHERE IdUsuario = @IdUsuario
+  AND (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%')
+  AND (@DuracaoMaxima IS NULL OR DuracaoMinutos <= @DuracaoMaxima)
+  AND (@QtdPessoas IS NULL OR (@QtdPessoas BETWEEN QtdMinimaJogadores AND QtdMaximaJogadores))
+  AND (@IdadeMinima IS NULL OR IdadeMinima <= @IdadeMinima)
+  AND (@Complexidade IS NULL OR IdComplexidade = @Complexidade)
+ORDER BY Nome
 ";
     }
 }

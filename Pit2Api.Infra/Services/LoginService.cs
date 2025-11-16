@@ -31,7 +31,7 @@ namespace Pit2Api.Infra.Services
         public Task<string?> GetSecurityQuestionAsync(string nickName)
             => _repo.GetSecurityQuestionByNickAsync(nickName);
 
-        public Task<bool> LoginAsync(string nickName, string senhaPlainText)
+        public Task<string> LoginAsync(string nickName, string senhaPlainText)
             => _repo.ValidateLoginAsync(nickName, senhaPlainText);
 
         public Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta)

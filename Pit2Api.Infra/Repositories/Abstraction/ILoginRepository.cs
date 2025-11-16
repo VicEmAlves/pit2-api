@@ -12,7 +12,7 @@ namespace Pit2Api.Infra.Repositories.Abstraction
         Task<bool> NickNameExistsAsync(string nickName);
         Task CreateUserAsync(Usuario user);
         Task<string?> GetSecurityQuestionByNickAsync(string nickName);
-        Task<bool> ValidateLoginAsync(string nickName, string senhaPlainText);
+        Task<string> ValidateLoginAsync(string nickName, string senhaPlainText);
         Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta);
         Task<bool> ChangePasswordAsync(string nickName, string novaSenhaPlainText);
         Task<IEnumerable<PerguntaSeguranca>> ListSecurityQuestionsAsync();

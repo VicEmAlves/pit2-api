@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pit2Api.Model.Interfaces;
 using Pit2Api.Model.Models;
-using Pit2Api.Controllers.Dto;
+using Pit2Api.Model.Dto;
 
 namespace Pit2Api.Controllers
 {

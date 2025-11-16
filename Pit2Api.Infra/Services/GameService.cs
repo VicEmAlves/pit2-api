@@ -1,4 +1,5 @@
 using Pit2Api.Infra.Repositories.Abstraction;
+using Pit2Api.Model.Dto;
 using Pit2Api.Model.Interfaces;
 using Pit2Api.Model.Models;
 using System;
@@ -41,5 +42,11 @@ namespace Pit2Api.Infra.Services
 
         public Task<bool> DeleteGameAsync(Guid id)
             => _repo.DeleteGameAsync(id);
+
+        public Task<IEnumerable<Jogo>> ListGamesByUserAsync(Guid userId)
+            => _repo.ListGamesByUserAsync(userId);
+
+        public Task<IEnumerable<Jogo>> ListGamesByUserWithFiltersAsync(Guid userId, GameFilterDto? filters)
+            => _repo.ListGamesByUserWithFiltersAsync(userId, filters);
     }
 }

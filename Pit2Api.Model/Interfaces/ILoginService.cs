@@ -11,7 +11,7 @@ namespace Pit2Api.Model.Interfaces
     {
         Task<(bool Success, string? ErrorMessage)> RegisterAsync(Usuario user);
         Task<string?> GetSecurityQuestionAsync(string nickName);
-        Task<bool> LoginAsync(string nickName, string senhaPlainText);
+        Task<string> LoginAsync(string nickName, string senhaPlainText);
         Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta);
         Task<bool> ChangePasswordAsync(string nickName, string novaSenhaPlainText);
         Task<IEnumerable<PerguntaSeguranca>> ListSecurityQuestionsAsync();

@@ -1,4 +1,5 @@
 using Pit2Api.Infra.Repositories.Abstraction;
+using Pit2Api.Model.Dto;
 using Pit2Api.Model.Models;
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,30 @@ namespace Pit2Api.Infra.Repositories.Implementation
         {
             var affected = await _db.ExecuteAsync(Scripts.DeleteJogo, new { Id = id });
             return affected > 0;
+        }
+
+        public async Task<IEnumerable<Jogo>> ListGamesByUserAsync(Guid userId)
+        {
+            return await _db.QueryManyAsync<Jogo>(Scripts.GetGamesByUser, new { IdUsuario = userId });
+        }
+
+        public async Task<IEnumerable<Jogo>> ListGamesByUserWithFiltersAsync(Guid userId, GameFilterDto? filters)
+        {
+            var nomeParam = string.IsNullOrWhiteSpace(filters?.Nome) ? null : $"%{filters!.Nome}%";
+            int? duracaoMax = filters?.DuracaoMaxima;
+            int? qtdPessoas = filters?.QtdPessoas;
+            int? idadeMinima = filters?.IdadeMinima;
+            int? complexidade = filters?.Complexidade;
+
+            return await _db.QueryManyAsync<Jogo>(Scripts.GetGamesByUserWithFilters, new
+            {
+                IdUsuario = userId,
+                Nome = nomeParam,
+                DuracaoMaxima = duracaoMax,
+                QtdPessoas = qtdPessoas,
+                IdadeMinima = idadeMinima,
+                Complexidade = complexidade
+            });
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Pit2Api.Model.Dto;
 using Pit2Api.Model.Interfaces;
 using Pit2Api.Model.Models;
-using Pit2Api.Controllers.Dto;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pit2Api.Controllers
 {
@@ -91,6 +94,28 @@ namespace Pit2Api.Controllers
                 return NotFound();
 
             return NoContent();
+        }
+
+        // 5 -> Listar todos os jogos que um usuário tem
+        [HttpGet("user/{userId:guid}/games")]
+        public async Task<IActionResult> ListGamesByUser(Guid userId)
+        {
+            if (userId == Guid.Empty)
+                return BadRequest();
+
+            var list = await _service.ListGamesByUserAsync(userId);
+            return Ok(list);
+        }
+
+        // 6 -> Listar jogos de um usuário com filtros opcionais (payload). Ignore null filters.
+        [HttpPost("user/{userId:guid}/games/search")]
+        public async Task<IActionResult> ListGamesByUserWithFilters(Guid userId, [FromBody] GameFilterDto? filters)
+        {
+            if (userId == Guid.Empty)
+                return BadRequest();
+
+            var list = await _service.ListGamesByUserWithFiltersAsync(userId, filters);
+            return Ok(list);
         }
     }
 }

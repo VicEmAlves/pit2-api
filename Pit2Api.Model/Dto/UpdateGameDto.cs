@@ -1,9 +1,10 @@
 using System;
 
-namespace Pit2Api.Controllers.Dto
+namespace Pit2Api.Model.Dto
 {
-    public class CreateGameDto
+    public class UpdateGameDto
     {
+        public Guid Id { get; set; }
         public Guid IdUsuario { get; set; }
         public int IdComplexidade { get; set; }
         public string? Nome { get; set; }

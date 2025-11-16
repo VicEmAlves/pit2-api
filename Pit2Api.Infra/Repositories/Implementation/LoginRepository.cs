@@ -23,7 +23,6 @@ namespace Pit2Api.Infra.Repositories.Implementation
 
         public async Task CreateUserAsync(Usuario user)
         {
-            // do not mutate user object; uppercase values only in the DB parameters
             await _db.ExecuteAsync(
                 Scripts.InsertUsuario,
                 new
@@ -45,9 +44,9 @@ namespace Pit2Api.Infra.Repositories.Implementation
             );
         }
 
-        public async Task<bool> ValidateLoginAsync(string nickName, string senhaPlainText)
+        public async Task<string> ValidateLoginAsync(string nickName, string senhaPlainText)
         {
-            var ok = await _db.QueryOneAsync<int>(
+            var ok = await _db.QueryOneAsync<string>(
                 Scripts.ValidateLogin,
                 new
                 {
@@ -55,7 +54,7 @@ namespace Pit2Api.Infra.Repositories.Implementation
                     Senha = senhaPlainText
                 }
             );
-            return ok == 1;
+            return ok;
         }
 
         public async Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta)

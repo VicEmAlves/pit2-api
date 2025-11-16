@@ -18,10 +18,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "Policy",
                       policy =>
                       {
-                          policy.AllowAnyHeader();
-                          policy.AllowAnyMethod();
-                          policy.AllowAnyOrigin();
-
+                          policy.AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowAnyOrigin();
                       });
 });
 builder.Services.AddEndpointsApiExplorer();

@@ -64,7 +64,7 @@ namespace Pit2Api.Infra.Services
 
             var count = await _repo.CountSectionsByUserAsync(secao.IdUsuario);
             if (count >= _config.MaxSessionsPerUser)
-                return (false, $"User already has the maximum allowed sections ({_config.MaxSessionsPerUser}).");
+                return (false, $"Usuário atingiu o limite de seções. ({_config.MaxSessionsPerUser}). Por gentileza, exclua uma das seções existentes.");
 
             var affected = await _repo.CreateSectionAsync(secao);
             return affected > 0 ? (true, null) : (false, "Failed to create section.");
@@ -99,7 +99,7 @@ namespace Pit2Api.Infra.Services
                     return (false, $"Jogo '{jogo.Nome}' complexity is to high to this session.");
 
                 if (effective > secao.DuracaoMinutos)
-                    return (false, $"Jogo '{jogo.Nome}' duration ({effective}) exceeds section max duration ({secao.DuracaoMinutos}).");
+                    return (false, $"Jogo '{jogo.Nome}' tem uma duração efetiva ({effective}) maior que a seção permite ({secao.DuracaoMinutos}).");
 
                 toInsert.Add(new JogosSecao
                 {
@@ -112,7 +112,7 @@ namespace Pit2Api.Infra.Services
             }
 
             if (totalEffectiveDuration > secao.DuracaoMinutos)
-                return (false, $"Total games duration ({totalEffectiveDuration}) exceeds section max duration ({secao.DuracaoMinutos}).");
+                return (false, $"A duração total dos jogos ({totalEffectiveDuration}) ultrapassa o limite da seção ({secao.DuracaoMinutos}).");
 
             var ok = await _repo.ReplaceSectionGamesAsync(idSecao, toInsert);
             return ok ? (true, null) : (false, "Failed to update section games.");

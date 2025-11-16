@@ -71,7 +71,16 @@ namespace Pit2Api.Infra.Repositories.Implementation
             int? duracaoMax = filters?.DuracaoMaxima;
             int? qtdPessoas = filters?.QtdPessoas;
             int? idadeMinima = filters?.IdadeMinima;
-            int? complexidade = filters?.Complexidade;
+
+            string? complexidade;
+            if (filters != null && filters.Complexidade != null && filters.Complexidade.Any())
+            {
+                complexidade = string.Join(';', filters.Complexidade);
+            }
+            else
+            {
+                complexidade = null;
+            }
 
             return await _db.QueryManyAsync<Jogo>(Scripts.GetGamesByUserWithFilters, new
             {

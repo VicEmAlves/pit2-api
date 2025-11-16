@@ -46,7 +46,7 @@ namespace Pit2Api.Infra.Repositories.Implementation
 
         public async Task<string> ValidateLoginAsync(string nickName, string senhaPlainText)
         {
-            var ok = await _db.QueryOneAsync<string>(
+            var ok = await _db.QueryOneAsync<Guid?>(
                 Scripts.ValidateLogin,
                 new
                 {
@@ -54,7 +54,7 @@ namespace Pit2Api.Infra.Repositories.Implementation
                     Senha = senhaPlainText
                 }
             );
-            return ok;
+            return ok?.ToString() ?? string.Empty;
         }
 
         public async Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta)

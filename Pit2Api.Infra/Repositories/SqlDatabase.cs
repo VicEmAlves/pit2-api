@@ -47,10 +47,8 @@ namespace Pit2Api.Infra.Repositories
             await using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            // Use QuerySingleAsync to mirror expectation of a single result (will throw if 0 or >1 rows)
             var item = await connection.QuerySingleAsync<T>(sql, parameters);
 
-            // ensure connection is closed before returning
             await connection.CloseAsync();
             return item;
         }

@@ -64,10 +64,10 @@ namespace Pit2Api.Controllers
                 return BadRequest();
 
             var ok = await _service.LoginAsync(dto.NickName, dto.Senha);
-            if (!ok)
+            if (string.IsNullOrWhiteSpace(ok))
                 return Unauthorized();
 
-            return Ok();
+            return Ok(ok);
         }
 
         // 4 -> Validar Pergunta Segurança

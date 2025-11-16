@@ -17,8 +17,8 @@ namespace Pit2Api.Infra.Services
             _repo = repo;
         }
 
-        public Task<IEnumerable<Complexidade>> ListComplexidadesAsync()
-            => _repo.ListComplexidadesAsync();
+        public async Task<IEnumerable<Complexidade>> ListComplexidadesAsync()
+            => await _repo.ListComplexidadesAsync();
 
         public async Task<(bool Success, string? ErrorMessage)> CreateGameAsync(Jogo jogo)
         {
@@ -37,16 +37,16 @@ namespace Pit2Api.Infra.Services
             return (success, error);
         }
 
-        public Task<bool> UpdateGameAsync(Jogo jogo)
-            => _repo.UpdateGameAsync(jogo);
+        public async Task<bool> UpdateGameAsync(Jogo jogo)
+            => await _repo.UpdateGameAsync(jogo);
 
-        public Task<bool> DeleteGameAsync(Guid id)
-            => _repo.DeleteGameAsync(id);
+        public async Task<bool> DeleteGameAsync(Guid id)
+            => await _repo.DeleteGameAsync(id);
 
-        public Task<IEnumerable<Jogo>> ListGamesByUserAsync(Guid userId)
-            => _repo.ListGamesByUserAsync(userId);
+        public async Task<IEnumerable<Jogo>> ListGamesByUserAsync(Guid userId)
+            => await _repo.ListGamesByUserAsync(userId);
 
-        public Task<IEnumerable<Jogo>> ListGamesByUserWithFiltersAsync(Guid userId, GameFilterDto? filters)
-            => _repo.ListGamesByUserWithFiltersAsync(userId, filters);
+        public async Task<IEnumerable<Jogo>> ListGamesByUserWithFiltersAsync(Guid userId, GameFilterDto? filters)
+            => await _repo.ListGamesByUserWithFiltersAsync(userId, filters);
     }
 }

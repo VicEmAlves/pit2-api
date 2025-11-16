@@ -22,8 +22,8 @@ namespace Pit2Api.Infra.Services
             _config = options.Value;
         }
 
-        public Task<IEnumerable<Secao>> ListSectionsByUserAsync(Guid userId)
-            => _repo.ListSectionsByUserAsync(userId);
+        public async Task<IEnumerable<Secao>> ListSectionsByUserAsync(Guid userId)
+            => await _repo.ListSectionsByUserAsync(userId);
 
         public async Task<IEnumerable<SessionGameDto>> ListGamesBySectionAsync(Guid sectionId)
         {
@@ -47,8 +47,12 @@ namespace Pit2Api.Infra.Services
             return mapped;
         }
 
-        public Task<bool> DeleteSectionAsync(Guid id)
-            => _repo.DeleteSectionAsync(id);
+        public async Task<bool> DeleteSectionAsync(Guid id)
+        {
+            await _repo.ReplaceSectionGamesAsync(id, new List<JogosSecao>());
+
+            return await _repo.DeleteSectionAsync(id);
+        }
 
         public async Task<(bool Success, string? ErrorMessage)> CreateSectionAsync(Secao secao)
         {
@@ -77,6 +81,7 @@ namespace Pit2Api.Infra.Services
 
             // Validate each jogo duration against section max duration
             var toInsert = new List<JogosSecao>();
+            int totalEffectiveDuration = 0;
             foreach (var item in jogos)
             {
                 var jogo = await _repo.GetJogoByIdAsync(item.IdJogo);
@@ -87,6 +92,12 @@ namespace Pit2Api.Infra.Services
                 if (item.PrimeiraVez)
                     effective = (int)Math.Ceiling(effective * 1.5);
 
+                if(jogo.IdComplexidade < secao.NivelComplexidadeMinima)
+                    return (false, $"Jogo '{jogo.Nome}' complexity is to low to this session.");
+
+                if (jogo.IdComplexidade > secao.NivelComplexidadeMaxima)
+                    return (false, $"Jogo '{jogo.Nome}' complexity is to high to this session.");
+
                 if (effective > secao.DuracaoMinutos)
                     return (false, $"Jogo '{jogo.Nome}' duration ({effective}) exceeds section max duration ({secao.DuracaoMinutos}).");
 
@@ -96,7 +107,12 @@ namespace Pit2Api.Infra.Services
                     IdJogo = item.IdJogo,
                     PrimeiraVez = item.PrimeiraVez
                 });
+
+                totalEffectiveDuration += effective;
             }
+
+            if (totalEffectiveDuration > secao.DuracaoMinutos)
+                return (false, $"Total games duration ({totalEffectiveDuration}) exceeds section max duration ({secao.DuracaoMinutos}).");
 
             var ok = await _repo.ReplaceSectionGamesAsync(idSecao, toInsert);
             return ok ? (true, null) : (false, "Failed to update section games.");

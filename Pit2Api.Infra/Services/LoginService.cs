@@ -28,19 +28,19 @@ namespace Pit2Api.Infra.Services
             return (true, null);
         }
 
-        public Task<string?> GetSecurityQuestionAsync(string nickName)
-            => _repo.GetSecurityQuestionByNickAsync(nickName);
+        public async Task<string?> GetSecurityQuestionAsync(string nickName)
+            => await _repo.GetSecurityQuestionByNickAsync(nickName);
 
-        public Task<string> LoginAsync(string nickName, string senhaPlainText)
-            => _repo.ValidateLoginAsync(nickName, senhaPlainText);
+        public async Task<string> LoginAsync(string nickName, string senhaPlainText)
+            => await _repo.ValidateLoginAsync(nickName, senhaPlainText);
 
-        public Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta)
-            => _repo.ValidateSecurityAnswerAsync(nickName, resposta);
+        public async Task<bool> ValidateSecurityAnswerAsync(string nickName, string resposta)
+            => await _repo.ValidateSecurityAnswerAsync(nickName, resposta);
 
-        public Task<bool> ChangePasswordAsync(string nickName, string novaSenhaPlainText)
-            => _repo.ChangePasswordAsync(nickName, novaSenhaPlainText);
+        public async Task<bool> ChangePasswordAsync(string nickName, string novaSenhaPlainText)
+            => await _repo.ChangePasswordAsync(nickName, novaSenhaPlainText);
 
-        public Task<IEnumerable<PerguntaSeguranca>> ListSecurityQuestionsAsync()
-            => _repo.ListSecurityQuestionsAsync();
+        public async Task<IEnumerable<PerguntaSeguranca>> ListSecurityQuestionsAsync()
+            => await _repo.ListSecurityQuestionsAsync();
     }
 }

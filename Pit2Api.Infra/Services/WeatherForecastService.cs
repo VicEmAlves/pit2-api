@@ -27,6 +27,5 @@ namespace Pit2Api.Infra.Services
         {
             return await _repository.GetAllWeatherForecasts();
         }
-
     }
 }

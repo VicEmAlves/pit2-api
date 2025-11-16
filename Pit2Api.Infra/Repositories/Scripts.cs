@@ -34,7 +34,7 @@ SELECT CASE WHEN EXISTS(
     SELECT 1 FROM Usuario
     WHERE NickName = @NickName
       AND Senha = HASHBYTES('SHA2_512', @Senha)
-) THEN (SELECT Id FROM Usuario WHERE NickName = @NickName) ELSE '' END
+) THEN (SELECT Id FROM Usuario WHERE NickName = @NickName) ELSE NULL END
 ";
 
         public const string ValidateSecurityAnswer = @"
@@ -152,7 +152,7 @@ WHERE IdUsuario = @IdUsuario
   AND (@DuracaoMaxima IS NULL OR DuracaoMinutos <= @DuracaoMaxima)
   AND (@QtdPessoas IS NULL OR (@QtdPessoas BETWEEN QtdMinimaJogadores AND QtdMaximaJogadores))
   AND (@IdadeMinima IS NULL OR IdadeMinima <= @IdadeMinima)
-  AND (@Complexidade IS NULL OR IdComplexidade = @Complexidade)
+  AND (@Complexidade IS NULL OR IdComplexidade IN (SELECT value from STRING_SPLIT(@Complexidade, ';')))
 ORDER BY Nome
 ";
     }

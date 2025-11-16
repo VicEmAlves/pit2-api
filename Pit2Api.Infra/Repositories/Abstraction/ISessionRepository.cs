@@ -11,6 +11,8 @@ namespace Pit2Api.Infra.Repositories.Abstraction
         Task<int> CountSectionsByUserAsync(Guid userId);
         Task<int> CreateSectionAsync(Secao secao);
         Task<bool> DeleteSectionAsync(Guid id);
+        Task DeleteGameFromSection(Guid IdJogo);
+
         Task<Secao?> GetSectionByIdAsync(Guid id);
 
         Task<IEnumerable<JogoSecaoInfo>> ListGamesBySectionAsync(Guid sectionId);

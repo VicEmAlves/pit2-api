@@ -49,6 +49,11 @@ namespace Pit2Api.Infra.Repositories.Implementation
         public async Task<Jogo?> GetJogoByIdAsync(Guid id)
             => await _db.QueryOneAsync<Jogo?>(Scripts.GetJogoById, new { Id = id });
 
+        public async Task DeleteGameFromSection(Guid IdJogo)
+        {
+            var affected = await _db.ExecuteAsync(Scripts.DeleteJogosSecaoByJogo, new { IdJogo = IdJogo });
+        }
+
         public async Task<bool> ReplaceSectionGamesAsync(Guid idSecao, IEnumerable<JogosSecao> jogosSecao)
         {
             // delete existing

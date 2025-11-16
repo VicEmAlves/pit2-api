@@ -131,7 +131,9 @@ WHERE Id = @Id
         public const string DeleteJogosSecaoBySecao = @"
 DELETE FROM JogosSecao WHERE IdSecao = @IdSecao
 ";
-
+        public const string DeleteJogosSecaoByJogo = @"
+DELETE FROM JogosSecao WHERE IdJogo = @IdJogo
+";
         public const string InsertJogosSecao = @"
 INSERT INTO JogosSecao (IdSecao, IdJogo, PrimeiraVez)
 VALUES (@IdSecao, @IdJogo, @PrimeiraVez)

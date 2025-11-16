@@ -2,19 +2,18 @@ using Pit2Api.Infra.Repositories.Abstraction;
 using Pit2Api.Model.Dto;
 using Pit2Api.Model.Interfaces;
 using Pit2Api.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Pit2Api.Infra.Services
 {
     public class GameService : IGameService
     {
         private readonly IGameRepository _repo;
+        private readonly ISessionRepository _sessionRepo;
 
-        public GameService(IGameRepository repo)
+        public GameService(IGameRepository repo, ISessionRepository sessionRepo)
         {
             _repo = repo;
+            _sessionRepo = sessionRepo;
         }
 
         public async Task<IEnumerable<Complexidade>> ListComplexidadesAsync()
@@ -41,8 +40,10 @@ namespace Pit2Api.Infra.Services
             => await _repo.UpdateGameAsync(jogo);
 
         public async Task<bool> DeleteGameAsync(Guid id)
-            => await _repo.DeleteGameAsync(id);
-
+        {
+            await _sessionRepo.DeleteGameFromSection(id);
+            return await _repo.DeleteGameAsync(id);
+        }
         public async Task<IEnumerable<Jogo>> ListGamesByUserAsync(Guid userId)
             => await _repo.ListGamesByUserAsync(userId);
 

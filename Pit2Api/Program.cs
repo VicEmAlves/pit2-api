@@ -13,7 +13,17 @@ builder.Services
 builder.Services.AddOptions();
 builder.Services.Configure<Config>(builder.Configuration.GetSection(nameof(Config)));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "Policy",
+                      policy =>
+                      {
+                          policy.AllowAnyHeader();
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyOrigin();
 
+                      });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,6 +33,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseCors("Policy");
 
 app.UseAuthorization();
 
